@@ -1,0 +1,8 @@
+
+turzo.preneurlab@gmail.com	
+/*-789+456+123
+
+user: dbAdmin
+password: 619#
+
+cluster0 connection string:  mongodb+srv://dbAdmin:619%23@cluster0-jut37.gcp.mongodb.net/test?retryWrites=true&w=majority
