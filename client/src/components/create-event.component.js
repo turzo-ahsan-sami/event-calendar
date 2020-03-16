@@ -84,7 +84,7 @@ export default class CreateEvent extends Component {
                 <form onSubmit={this.onSubmit}>
 
                     <div className="form-group">
-                        <label>Username: </label>
+                        <label>Created by: </label>
                         <select ref="userInput"
                             required
                             className="form-control"

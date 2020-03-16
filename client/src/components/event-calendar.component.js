@@ -11,7 +11,7 @@ const Event = props => (
         <td>{props.event.description}</td>
         <td>{props.event.date.substring(0, 10)}</td>
         <td>
-            <Link to={"/edit/" + props.event._id}>edit</Link> | <a href="#" onClick={() => { props.deleteEvent(props.event._id) }}>delete</a>
+            <Link to={"/edit/event/" + props.event._id}>edit</Link> | <a href="#" onClick={() => { props.deleteEvent(props.event._id) }}>delete</a>
         </td>
     </tr>
 )
@@ -46,12 +46,11 @@ export default class EventCalendar extends Component {
 
     deleteEvent(id) {
         axios.delete('http://localhost:6060/events/delete/' + id)
-            .then(response => {
-                this.setState({ events: response.data });
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+            .then(response => { console.log(response.data) });
+
+        this.setState({
+            events: this.state.events.filter(el => el._id !== id)
+        })
     }
 
     render() {
