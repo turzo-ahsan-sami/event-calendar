@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const routeGenerator = require('./../shared/routeGenerator');
+
 export default class CreateUser extends Component {
 
     constructor(props) {
@@ -23,8 +25,9 @@ export default class CreateUser extends Component {
         const newUser = {
             username: this.state.username,
         };
-
-        axios.post('http://localhost:6060/users/add', newUser).then(res => console.log(res.data));
+        
+        let api_uri = routeGenerator.getURI("users/add");
+        axios.post(api_uri, newUser).then(res => console.log(res.data));
 
         this.setState({
             username: ''

@@ -22,9 +22,9 @@ connection.once('open', () => {
 const eventsRouter = require('./routes/events.route');
 const usersRouter = require('./routes/users.route');
 
-app.get('/', (req, res) => res.send('event calender'));
-app.use('/events', eventsRouter);
-app.use('/users', usersRouter);
+app.get('/', (req, res) => res.send('event calender running'));
+app.use('/api/events', eventsRouter);
+app.use('/api/users', usersRouter);
 
 
 // app listen

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
+const routeGenerator = require('./../shared/routeGenerator');
 
 const Event = props => (
     <tr>
@@ -11,7 +11,8 @@ const Event = props => (
         <td>{props.event.description}</td>
         <td>{props.event.date.substring(0, 10)}</td>
         <td>
-            <Link to={"/edit/event/" + props.event._id}>edit</Link> | <a href="#" onClick={() => { props.deleteEvent(props.event._id) }}>delete</a>
+            <Link to={"/edit/event/" + props.event._id}><button className="btn btn-sm btn-primary">edit</button></Link> 
+            <button className="btn btn-sm btn-danger ml-1" onClick={() => { props.deleteEvent(props.event._id) }}>delete</button>
         </td>
     </tr>
 )
@@ -22,14 +23,14 @@ export default class EventCalendar extends Component {
     constructor(props) {
         super(props);
         this.deleteEvent = this.deleteEvent.bind(this);
-        //this.updateEvent = this.updateEvent.bind(this);
         this.state = {
             events: []
         };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:6060/events/')
+        let api_uri = routeGenerator.getURI('events');
+        axios.get(api_uri)
             .then(response => {
                 this.setState({ events: response.data });
             })
@@ -45,7 +46,8 @@ export default class EventCalendar extends Component {
     }
 
     deleteEvent(id) {
-        axios.delete('http://localhost:6060/events/delete/' + id)
+        let api_uri = routeGenerator.getURI('events/delete/' + id);
+        axios.delete(api_uri)
             .then(response => { console.log(response.data) });
 
         this.setState({
@@ -56,7 +58,7 @@ export default class EventCalendar extends Component {
     render() {
         return (
             <div>
-                <h3>Events</h3>
+                <h3>Event Calendar</h3>
                 <table className="table">
                     <thead className="thead-light">
                         <tr>

@@ -3,6 +3,8 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
+const routeGenerator = require('./../shared/routeGenerator');
+
 export default class CreateEvent extends Component {
 
     constructor(props) {
@@ -25,7 +27,8 @@ export default class CreateEvent extends Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:6060/users/')
+        let api_uri = routeGenerator.getURI("users");
+        axios.get(api_uri)
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -66,6 +69,7 @@ export default class CreateEvent extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        
         const newEvent = {
             username: this.state.username,
             title: this.state.title,
@@ -73,7 +77,9 @@ export default class CreateEvent extends Component {
             date: this.state.date,
         };
 
-        axios.post('http://localhost:6060/events/add', newEvent).then(res => console.log(res.data));
+        let api_uri = routeGenerator.getURI("events/add");
+        axios.post(api_uri, newEvent).then(res => console.log(res.data));
+
         window.location = '/';
     }
 

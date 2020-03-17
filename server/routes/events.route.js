@@ -1,11 +1,14 @@
 const router = require('express').Router();
 let Event = require('../models/event.model');
+const { getEventsByDate } = require('../controllers/event.controller');
 
 router.route('/').get((req, res) => {
     Event.find()
         .then(events => res.json(events))
         .catch(err => res.status(400).json(`error : ${err}`));
 });
+
+router.get('/', getEventsByDate);
 
 router.route('/:id').get((req, res) => {
     Event.findById(req.params.id)
@@ -22,10 +25,10 @@ router.route('/delete/:id').delete((req, res) => {
 
 
 router.route('/add').post((req, res) => {
-    const username      = req.body.username;
-    const title         = req.body.title;
-    const description   = req.body.description;
-    const date          = Date.parse(req.body.date);
+    const username = req.body.username;
+    const title = req.body.title;
+    const description = req.body.description;
+    const date = Date.parse(req.body.date);
 
     const newEvent = new Event({
         username,
@@ -41,17 +44,17 @@ router.route('/add').post((req, res) => {
 
 
 router.route('/update/:id').post((req, res) => {
-    const username      = req.body.username;
-    const title         = req.body.title;
-    const description   = req.body.description;
-    const date          = Date.parse(req.body.date);
+    const username = req.body.username;
+    const title = req.body.title;
+    const description = req.body.description;
+    const date = Date.parse(req.body.date);
 
     Event.findById(req.params.id)
         .then(event => {
-            event.username      = username;
-            event.title         = title;
-            event.description   = description;
-            event.date          = date;
+            event.username = username;
+            event.title = title;
+            event.description = description;
+            event.date = date;
 
             event.save()
                 .then(() => res.json('event updated'))
@@ -59,6 +62,10 @@ router.route('/update/:id').post((req, res) => {
         })
         .catch(err => res.status(400).json(`error : ${err}`));
 });
+
+
+
+
 
 module.exports = router;
 
