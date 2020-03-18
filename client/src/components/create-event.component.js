@@ -85,7 +85,7 @@ export default class CreateEvent extends Component {
         let api_uri = routeGenerator.getURI("events/add");
         axios.post(api_uri, newEvent).then(res => console.log(res.data));
 
-        window.location = '/event/calendar';
+        window.location = '/';
     }
 
     render() {
