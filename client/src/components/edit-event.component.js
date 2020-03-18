@@ -143,6 +143,8 @@ export default class EditExercise extends Component {
                                 className="form-control"
                                 selected={this.state.date}
                                 onChange={this.onChangeDate}
+                                showTimeSelect
+                                dateFormat="Pp"
                             />
                         </div>
                     </div>

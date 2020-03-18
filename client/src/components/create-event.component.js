@@ -139,6 +139,8 @@ export default class CreateEvent extends Component {
                                 className="form-control"
                                 selected={this.state.date}
                                 onChange={this.onChangeDate}
+                                showTimeSelect
+                                dateFormat="Pp"
                             />
                         </div>
                     </div>
