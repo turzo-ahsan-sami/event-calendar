@@ -25,15 +25,13 @@ export default class CreateEvent extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let eventDate = '';
         if (localStorage && localStorage.getItem('eventDate')) {
             eventDate = JSON.parse(localStorage.getItem('eventDate'));
         }
         this.setState({ date: new Date(eventDate) });
-    }
 
-    componentDidMount() {
         let api_uri = routeGenerator.getURI("users");
         axios.get(api_uri)
             .then(response => {

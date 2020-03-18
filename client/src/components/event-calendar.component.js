@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
 
 const routeGenerator = require('./../shared/routeGenerator');
@@ -14,7 +16,8 @@ export default class EventCalendar extends Component {
         super(props);
         this.state = {
             events: [],
-            redirect: null
+            redirect: null,
+            calendarWeekends: true
         };
     }
 
@@ -29,11 +32,18 @@ export default class EventCalendar extends Component {
             })
     }
 
-    handleDateClick = (arg) => {
-        // alert(arg.dateStr)
-        // <Link to={"/create/event"}></Link>
-        localStorage.setItem('eventDate', JSON.stringify(arg.dateStr));
-        this.setState({ redirect: `/create/event` });
+    handleDateClick = (dateClickInfo) => {
+        // console.log(dateClickInfo.dateStr);
+        let eventdate = moment(dateClickInfo.dateStr).format('dddd, Do MMMM YYYY');
+        if (window.confirm('Would you like to add an event to ' + eventdate + ' ?')) {
+            localStorage.setItem('eventDate', JSON.stringify(dateClickInfo.dateStr));
+            this.setState({ redirect: `/create/event` });
+        }
+    }
+
+    handleEventClick(eventClickInfo) {
+        console.log(eventClickInfo.event.extendedProps);
+        console.log(eventClickInfo.event.extendedProps._id);
     }
 
     render() {
@@ -41,12 +51,25 @@ export default class EventCalendar extends Component {
             return <Redirect to={this.state.redirect} />
         }
         return (
-            <FullCalendar
-                defaultView="dayGridMonth"
-                plugins={[dayGridPlugin, interactionPlugin]}
-                dateClick={this.handleDateClick}
-                events={this.state.events}
-            />
+            <div className='app-calendar'>
+                <FullCalendar
+                    defaultView="dayGridMonth"
+                    header={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    }}
+                    plugins={[
+                        dayGridPlugin, 
+                        timeGridPlugin, 
+                        interactionPlugin
+                    ]}
+                    weekends={ this.state.calendarWeekends }
+                    events={this.state.events}
+                    dateClick={this.handleDateClick}
+                    eventClick={this.handleEventClick}
+                />
+            </div>
         )
     }
 
