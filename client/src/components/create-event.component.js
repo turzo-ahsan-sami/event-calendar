@@ -31,7 +31,7 @@ export default class CreateEvent extends Component {
             eventDate = JSON.parse(localStorage.getItem('eventDate'));
         }
         this.setState({ date: new Date(eventDate) });
-
+        
         let api_uri = routeGenerator.getURI("users");
         axios.get(api_uri)
             .then(response => {

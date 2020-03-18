@@ -26,12 +26,6 @@ export default class EditExercise extends Component {
     }
 
     componentDidMount() {
-        // let eventId = '';
-        // if (localStorage && localStorage.getItem('eventId')) {
-        //     eventId = JSON.parse(localStorage.getItem('eventId'));
-        // }
-        // this.setState({ date: new Date(eventDate) });
-
         let api_uri = routeGenerator.getURI("events/" + this.props.match.params.id);
         axios.get(api_uri)
             .then(response => {

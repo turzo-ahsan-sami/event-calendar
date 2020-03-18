@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import moment from 'moment';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -33,17 +32,14 @@ export default class EventCalendar extends Component {
     }
 
     handleDateClick = (dateClickInfo) => {
-        // console.log(dateClickInfo.dateStr);
-        let eventdate = moment(dateClickInfo.dateStr).format('dddd, Do MMMM YYYY');
-        if (window.confirm('Would you like to add an event to ' + eventdate + ' ?')) {
-            localStorage.setItem('eventDate', JSON.stringify(dateClickInfo.dateStr));
-            this.setState({ redirect: `/create/event` });
-        }
+        this.setState({ redirect: null });
+        localStorage.setItem('eventDate', JSON.stringify(dateClickInfo.dateStr));
+        this.setState({ redirect: `/create/event` });
     }
 
-    handleEventClick(eventClickInfo) {
-        console.log(eventClickInfo.event.extendedProps);
-        console.log(eventClickInfo.event.extendedProps._id);
+    handleEventClick = (eventClickInfo) => {
+        this.setState({ redirect: null });
+        this.setState({ redirect: '/edit/event/' + eventClickInfo.event.extendedProps._id });
     }
 
     render() {
