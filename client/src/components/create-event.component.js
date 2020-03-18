@@ -25,6 +25,13 @@ export default class CreateEvent extends Component {
         }
     }
 
+    componentWillMount() {
+        let eventDate = '';
+        if (localStorage && localStorage.getItem('eventDate')) {
+            eventDate = JSON.parse(localStorage.getItem('eventDate'));
+        }
+        this.setState({ date: new Date(eventDate) });
+    }
 
     componentDidMount() {
         let api_uri = routeGenerator.getURI("users");
@@ -80,7 +87,7 @@ export default class CreateEvent extends Component {
         let api_uri = routeGenerator.getURI("events/add");
         axios.post(api_uri, newEvent).then(res => console.log(res.data));
 
-        window.location = '/';
+        window.location = '/event/calendar';
     }
 
     render() {

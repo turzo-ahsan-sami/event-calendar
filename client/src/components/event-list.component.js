@@ -64,10 +64,9 @@ export default class EventList extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        let startDate = moment(this.state.startDate).format('DD-MM-YYYY');
-        let endDate = moment(this.state.endDate).format('DD-MM-YYYY');
-
-        let api_uri = routeGenerator.getURI("events/" + startDate + "/" + endDate);
+        const startdate = (moment(this.state.startDate).format('YYYY-MM-DD'));
+        const enddate = (moment(this.state.enddate).format('YYYY-MM-DD'));
+        let api_uri = routeGenerator.getURI(`events/daterange?startdate=${startdate}&enddate=${enddate}`);
         console.log(api_uri);
         axios.get(api_uri)
         .then(response => {

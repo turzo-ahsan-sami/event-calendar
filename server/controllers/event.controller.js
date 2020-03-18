@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
 const Event = require('../models/event.model');
+const moment = require ('moment');
 
 exports.getEventList = (req, res) => {
     Event.find()
@@ -14,10 +14,11 @@ exports.getEventById = (req, res) => {
 };
 
 exports.getEventsByUsername = (req, res) => {
-    console.log(req.params);
-    Event.find({ username: req.params.username})
-        .then(events => res.json(events))
-        .catch(err => res.status(400).json(`error : ${err}`));
+    Event.find({
+        username: req.params.username
+    }).sort({ date: 'asc' })
+    .then(events => res.json(events))
+    .catch(err => res.status(400).json(`error : ${err}`));
 };
 
 exports.deleteEvent = (req, res) => {
@@ -66,35 +67,12 @@ exports.updateEvent = (req, res) => {
 
 
 exports.getEventsByDaterange = (req, res) => {
-    console.log(req);
-    try {
-        let { startDate, endDate } = req.query;
-        //expected result: YYY-MMM-DDD
-        console.log({ startDate, endDate });
-
-        const events = Event.find({
-            date: {
-                $gte: new Date(new Date(startDate).setHours(00, 00, 00)),
-                $lt: new Date(new Date(endDate).setHours(23, 59, 59))
-            }
-        }).sort({ date: 'asc' })
-
-        if (!events) {
-            return res.status(404).json({
-                status: 'failure',
-                message: 'could not retrieve events'
-            })
+    Event.find({
+        date: {
+            $gte: (req.query.startdate),
+            $lt: (req.query.enddate)
         }
-
-        res.status(200).json({
-            status: 'success',
-            data: events
-        })
-    }
-    catch (error) {
-        return res.status(500).json({
-            status: 'failure',
-            error: error.message
-        })
-    }
-}
+    }).sort({ date: 'asc' })
+    .then(events => res.json(events))
+    .catch(err => res.status(400).json(`error : ${err}`));      
+;}
