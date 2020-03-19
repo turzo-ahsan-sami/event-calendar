@@ -23,4 +23,13 @@ Open `localhost:6060` with a browser and see the app running.
 
 
 
+### How to use
 
+
+
+
+#### Author
+Turzo Ahsan Sami
+
+#### Lisence 
+GNU GPL 3

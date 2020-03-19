@@ -15,6 +15,7 @@ export default class EditExercise extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.deleteEvent = this.deleteEvent.bind(this);
 
         this.state = {
             username: '',
@@ -92,6 +93,16 @@ export default class EditExercise extends Component {
 
         window.location = '/';
     }
+
+    deleteEvent(e) {
+        e.preventDefault();
+
+        let api_uri = routeGenerator.getURI("events/delete/" + this.props.match.params.id);
+        axios.delete(api_uri)
+            .then(response => { console.log(response.data) });
+
+        window.location = '/';
+    }
     
     render() {
         return (
@@ -149,8 +160,10 @@ export default class EditExercise extends Component {
                         </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-inline">
                         <input type="submit" value="Edit Event" className="btn btn-primary" />
+                    
+                        <button className="btn btn-danger ml-1" onClick={this.deleteEvent}>Delete Event</button>
                     </div>
                 </form>
             </div>
