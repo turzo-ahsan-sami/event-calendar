@@ -17,15 +17,19 @@ Build the project using the command `npm run-script build`.
 #### Server
 
 Go to `server` folder and install dependencies using the command `npm install`.
+Unzip `dotenv.rar`. 
 Start the server using the command `npm start`.
 The server will start running on `localhost:6060` and serve the production build of the client. 
 Open `localhost:6060` with a browser and see the app running. 
 
 
 
-### How to use
+#### Stack
 
-
+client: React
+server: Node-express
+db: MongoDB-Atlas
+realtime comm: socket.io
 
 
 #### Author

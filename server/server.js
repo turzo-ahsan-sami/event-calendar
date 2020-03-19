@@ -1,18 +1,18 @@
 'use strict';
 
-const express = require('express');
 const http = require('http');
+const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const axios = require('axios');
 const socket = require('socket.io');
-
-const app = express();
-const port = process.env.PORT || 6060;
+const axios = require('axios');
 
 // routes
 const eventsRouter = require('./routes/events.route');
 const usersRouter = require('./routes/users.route');
+
+const app = express();
+const port = process.env.PORT || 6060;
 
 app.use(cors());
 app.use(express.json());
@@ -26,9 +26,8 @@ app.use('/api/users', usersRouter);
 
 
 // mongo connection
-require('dotenv').config();
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+const ATLAS_URI = 'mongodb+srv://dbAdmin:619%23@cluster0-jut37.gcp.mongodb.net/test?retryWrites=true&w=majority';
+mongoose.connect(ATLAS_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("...mongodb connected...");
