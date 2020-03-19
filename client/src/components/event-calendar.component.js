@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -24,16 +24,18 @@ export default class EventCalendar extends Component {
 
     componentDidMount() {
         const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.on('new_events', data => {
-            let api_uri = routeGenerator.getURI(`events`);
-            axios.get(api_uri)
-                .then(response => {
-                    this.setState({ events: response.data })
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+        const socket = io(endpoint);
+        socket.on('events', data => {
+            this.setState({ events: data });
+            console.log('events', this.state.events);
+            // let api_uri = routeGenerator.getURI(`events`);
+            // axios.get(api_uri)
+            //     .then(response => {
+            //         this.setState({ events: response.data })
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //     })
         });
 
     }
@@ -63,8 +65,8 @@ export default class EventCalendar extends Component {
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                     }}
                     plugins={[
-                        dayGridPlugin, 
-                        timeGridPlugin, 
+                        dayGridPlugin,
+                        timeGridPlugin,
                         interactionPlugin
                     ]}
                     events={this.state.events}
