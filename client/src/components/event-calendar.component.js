@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import io from 'socket.io-client';
 
 import FullCalendar from '@fullcalendar/react';
@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
 
-const routeGenerator = require('./../shared/routeGenerator');
+// const routeGenerator = require('./../shared/routeGenerator');
 
 export default class EventCalendar extends Component {
 

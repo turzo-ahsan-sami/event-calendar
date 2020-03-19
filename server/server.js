@@ -21,9 +21,8 @@ app.use(express.json());
 app.use('/', express.static('../client/build'));
 
 // api end points
-const eventsApi = app.use('/api/events', eventsRouter);
+app.use('/api/events', eventsRouter);
 app.use('/api/users', usersRouter);
-
 
 
 // mongo connection
@@ -43,15 +42,6 @@ server.listen(port, () => {
 });
 
 
-// socket function
-const getApiAndEmit = async socket => {
-    try {
-        const res = await axios.get('http://127.0.0.1:6060/api/events');
-        socket.emit('events', res.data);
-    } catch (error) {
-        console.error(`Error: ${error.code}`);
-    }
-};
 
 // socket setup
 const io = socket(server);
@@ -61,3 +51,14 @@ io.on('connection', socket => {
     if (interval) clearInterval(interval);
     interval = setInterval(() => getApiAndEmit(socket), 1000);
 })
+
+
+// socket function
+const getApiAndEmit = async socket => {
+    try {
+        const res = await axios.get('http://127.0.0.1:6060/api/events');
+        io.emit('events', res.data);
+    } catch (error) {
+        console.error(`Error: ${error.code}`);
+    }
+};
