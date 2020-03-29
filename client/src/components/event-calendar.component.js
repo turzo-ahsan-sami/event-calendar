@@ -27,28 +27,17 @@ export default class EventCalendar extends Component {
         const socket = io(endpoint);
         socket.on('events', data => {
             this.setState({ events: data });
-            console.log('events', this.state.events);
-            // let api_uri = routeGenerator.getURI(`events`);
-            // axios.get(api_uri)
-            //     .then(response => {
-            //         this.setState({ events: response.data })
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //     })
         });
-
     }
 
     handleDateClick = (dateClickInfo) => {
         this.setState({ redirect: null });
-        localStorage.setItem('eventDate', JSON.stringify(dateClickInfo.dateStr));
-        this.setState({ redirect: `/create/event` });
+        this.setState({ redirect: `/create/event?date=${dateClickInfo.dateStr}`});
     }
 
     handleEventClick = (eventClickInfo) => {
         this.setState({ redirect: null });
-        this.setState({ redirect: '/edit/event/' + eventClickInfo.event.extendedProps._id });
+        this.setState({ redirect: `/edit/event/` + eventClickInfo.event.extendedProps._id });
     }
 
     render() {
